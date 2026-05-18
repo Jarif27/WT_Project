@@ -8,8 +8,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION['user_id'])) {
-
-    header("location: /Task-3/index.php");
+    header("location: /Task-3/Student-3/index.php");
     exit;
 }
 
@@ -48,12 +47,9 @@ require_once __DIR__ . '/../partials/header.php';
                 if ($row['status'] == 'active') {
 
                     if ($row['my_highest_bid'] == $row['current_bid']) {
-
                         $statusText = "Leading";
                         $statusClass = "success";
-
                     } else {
-
                         $statusText = "Outbid";
                         $statusClass = "danger";
                     }
@@ -64,24 +60,16 @@ require_once __DIR__ . '/../partials/header.php';
                         $row['reserve_price'] != null &&
                         $row['current_bid'] < $row['reserve_price']
                     ) {
-
                         $statusText = "Reserve Not Met";
                         $statusClass = "danger";
-
                     } else {
 
                         $winner = getWinnerBid($row['winner_bid_id']);
 
-                        if (
-                            $winner &&
-                            $winner['buyer_id'] == $buyer_id
-                        ) {
-
+                        if ($winner && $winner['buyer_id'] == $buyer_id) {
                             $statusText = "🏆 You Won!";
                             $statusClass = "success";
-
                         } else {
-
                             $statusText = "Lost";
                             $statusClass = "danger";
                         }
@@ -94,51 +82,21 @@ require_once __DIR__ . '/../partials/header.php';
 
                 <td>
 
-                    <a href="/Task-3/views/auctions/detail.php?id=<?php echo $row['listing_id']; ?>">
-
+                    <a href="/Task-3/Student-3/index.php?page=detail&id=<?php echo $row['listing_id']; ?>">
                         <?php echo $row['title']; ?>
-
                     </a>
 
                 </td>
 
-                <td>
+                <td>$<?php echo $row['my_highest_bid']; ?></td>
 
-                    $<?php echo $row['my_highest_bid']; ?>
-
-                </td>
-
-                <td>
-
-                    $<?php echo $row['current_bid']; ?>
-
-                </td>
+                <td>$<?php echo $row['current_bid']; ?></td>
 
                 <td>
 
                     <span class="<?php echo $statusClass; ?>">
-
                         <?php echo $statusText; ?>
-
                     </span>
-
-                    <?php
-                        if ($statusText == "🏆 You Won!") {
-                    ?>
-
-                        <div style="margin-top:10px;">
-
-                            Seller:
-                            <?php echo $row['seller_name']; ?>
-
-                            <br>
-
-                            Contact:
-                            <?php echo $row['seller_email']; ?>
-
-                        </div>
-
-                    <?php } ?>
 
                 </td>
 
